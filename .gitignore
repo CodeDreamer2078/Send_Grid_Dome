@@ -1,0 +1,83 @@
+## Build output
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+## NuGet packages (restored via 'nuget restore')
+packages/
+*.nupkg
+!*.nupkg.metadata
+
+## Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+## MSBuild
+*.log
+msbuild.wrn
+msbuild.err
+
+## Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+## Rider / JetBrains
+.idea/
+*.sln.iml
+
+## VS Code
+.vscode/
+
+## ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+## NCrunch
+_NCrunch_*
+.*crunch*.local.xml
+nCrunchTemp_*
+
+## Chutzpah Test
+_Chutzpah*
+
+## StyleCop
+StyleCopReport.xml
+
+## Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+TestResult.xml
+test*.trx
+
+## NuGet v3 lock file
+project.lock.json
+
+## ASP.NET temp folder
+**/[Pp]ublish[Pp]rofiles/
+**/[Pp]ublish/
+
+## Misc
+*.pidb
+*.pdb
+*.cache
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.ipdb
+*.tmp
+*.tmp_proj
+*.vspscc
+*.vssscc
+*.builds
+*.dotCover
