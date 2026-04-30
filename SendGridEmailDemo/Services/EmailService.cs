@@ -131,6 +131,65 @@ namespace SendGridEmailDemo.Services
         }
 
         /// <summary>
+        /// Sends a single email with optional file attachments using SendGrid.
+        /// Attachment content must be Base64-encoded before calling this method.
+        /// </summary>
+        public async Task<EmailResult> SendEmailWithAttachmentsAsync(
+            EmailRequest request,
+            List<EmailAttachment> attachments)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            try
+            {
+                var client = new SendGridClient(_apiKey);
+
+                var fromAddress = new EmailAddress(request.FromEmail, request.FromName);
+                var toAddress = new EmailAddress(request.ToEmail);
+
+                var message = MailHelper.CreateSingleEmail(
+                    fromAddress,
+                    toAddress,
+                    request.Subject,
+                    request.PlainTextContent,
+                    request.HtmlContent);
+
+                if (attachments != null)
+                {
+                    foreach (EmailAttachment attachment in attachments)
+                    {
+                        message.AddAttachment(
+                            attachment.FileName,
+                            attachment.Base64Content,
+                            attachment.ContentType);
+                    }
+                }
+
+                Response response = await client.SendEmailAsync(message);
+
+                if (IsSuccessStatusCode(response.StatusCode))
+                {
+                    return EmailResult.Success(
+                        "Email sent successfully with attachment(s)!",
+                        (int)response.StatusCode);
+                }
+
+                string responseBody = await response.Body.ReadAsStringAsync();
+                return EmailResult.Failure(
+                    $"SendGrid returned status {(int)response.StatusCode}: {responseBody}",
+                    (int)response.StatusCode);
+            }
+            catch (Exception ex)
+            {
+                return EmailResult.Failure(
+                    $"An error occurred while sending the email: {ex.Message}");
+            }
+        }
+
+        /// <summary>
         /// SendGrid returns 200, 201, or 202 (Accepted) on success.
         /// 202 is the most common success response for email sending.
         /// </summary>
